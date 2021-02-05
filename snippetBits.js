@@ -39,3 +39,8 @@ var chatData = { content: messageContent };
 ChatMessage.create(chatData, {});
 game.cub.removeCondition("Concentrating");
 
+//update token (let target = canvas.tokens.get(args[1]); if passed as a DAE parameter)
+let target = Array.from(game.user.targets)[0];;
+target.update({
+    "dimLight": 5, "lightColor": "#f8c377", "lightAlpha": 0.5, "lightAnimation": { type: "pulse", speed: 2, intensity: 2 }
+});
