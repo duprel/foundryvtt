@@ -24,7 +24,7 @@ let target = Array.from(game.user.targets)[0];
 console.log(target);
 
 //CUB add condition
-game.cub.addCondition(["Blinded", "Charmed"], [...game.user.targets], { allowDuplicates: true, replaceExisting: true });
+game.cub.addCondition(["Blinded", "Charmed"], [...game.user.targets], { allowDuplicates: false, replaceExisting: false });
 
 //CUB remove condition
 game.cub.removeCondition("Concentrating");
@@ -52,40 +52,35 @@ target.update({
 });
 
 //toggle effect 
-let dae_effect = async function (effectName) {
-
-    const effect_name = effectName;
-
-    let target = Array.from(game.user.targets)[0];
-
-    const effect = target.actor.effects.entries;
-
-    for (let i = 0; i < effect.length; i++) {
-
-        let condition = effect[i].data.label;
-
-        let status = effect[i].data.disabled;
-
-        let effect_id = effect[i].data._id;
-
-        if ((condition === effect_name) && (status === false)) {
-
-            await token.actor.updateEmbeddedEntity("ActiveEffect", { "_id": effect_id, "disabled": true });
-
-        }
-
-        if ((condition === effect_name) && (status === true)) {
-
-            await token.actor.updateEmbeddedEntity("ActiveEffect", { "_id": effect_id, "disabled": false });
-
-        }
-
-    }
-
-}
-
-dae_effect();
+(async () => {
+    let toggleCondition = async function (tokenArr, effectName) {
+        var effect = tokenArr.actor.effects.entries;
+        for (let i = 0; i < effect.length; i++) {
+            let condition = effect[i].data.label;
+            let effect_id = effect[i].data._id;
+            let status = effect[i].data.disabled;
+            if ((condition === effectName) && (status === undefined || status === false)) {
+                await token.actor.updateEmbeddedEntity("ActiveEffect", { "_id": effect_id, "disabled": true });
+            }//end if statement
+            if ((condition === effectName) && (status === true)) {
+                await token.actor.updateEmbeddedEntity("ActiveEffect", { "_id": effect_id, "disabled": false });
+            }//end if statement
+        }//end for loop
+    }//end function
+    var tokenID = args[1].tokenId;
+    var token = canvas.tokens.get(tokenID);
+    await toggleCondition(token, "Charmed");
+    await toggleCondition(token, "Frightened");
+})();
 
 //Rolling Dice
 let numDice = args[1];
-Roll(`${numDice}d4[piercing]`).roll().toMessage({ flavor: "Cloud of Daggers: Piercing damage." }); 
+Roll(`${numDice}d4[piercing]`).roll().toMessage({ flavor: "Cloud of Daggers: Piercing damage." });
+
+//to get a token array from the @target parametes passed from DAE
+let arr = Array.from(game.user.targets);
+let token = arr.find(i => i.data._id == args[1]);
+
+//Find a token by tokeniD passed from dae effect macroz
+var tokenId = args[1].tokenId;
+var token = canvas.tokens.get(tokenId);
