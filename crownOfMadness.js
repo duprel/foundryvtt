@@ -1,13 +1,11 @@
 ﻿(async () => {
-    if (game.user.targets.size != 1) {
-        ui.notifications.error("Please target a single token.");
-        return;
-    };
-    let target = Array.from(game.user.targets)[0];
     if (args[0] === "on") {
-        game.cub.addCondition("Charmed", target, { allowDuplicates: false, replaceExisting: false });
-        return;
+        let target = Array.from(game.user.targets)[0];
+        console.log("************", target);
+        game.cub.addCondition("Charmed", target);
     } else {
-        game.cub.removeCondition("Charmed");   
+        var tokenID = args[1].tokenId;
+        var token = canvas.tokens.get(tokenID);
+        game.cub.removeCondition("Charmed", token);
     };
 })();

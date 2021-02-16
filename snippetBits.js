@@ -46,7 +46,7 @@ ChatMessage.create(chatData, {});
 game.cub.removeCondition("Concentrating");
 
 //update token (let target = canvas.tokens.get(args[1]); if passed as a DAE parameter)
-let target = Array.from(game.user.targets)[0];;
+let target = Array.from(game.user.targets)[0];
 target.update({
     "dimLight": 5, "lightColor": "#f8c377", "lightAlpha": 0.5, "lightAnimation": { type: "pulse", speed: 2, intensity: 2 }
 });
@@ -81,6 +81,15 @@ Roll(`${numDice}d4[piercing]`).roll().toMessage({ flavor: "Cloud of Daggers: Pie
 let arr = Array.from(game.user.targets);
 let token = arr.find(i => i.data._id == args[1]);
 
-//Find a token by tokeniD passed from dae effect macroz
+//Find a token by tokeniD passed from dae effect macro
 var tokenId = args[1].tokenId;
 var token = canvas.tokens.get(tokenId);
+
+//select current controlled token
+(async () => {
+    if (canvas.tokens.controlled.length != 1) {
+        ui.notifications.error("Please select a single token.");
+        return;
+    }
+    let t = canvas.tokens.controlled;
+})();
