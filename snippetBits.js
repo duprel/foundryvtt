@@ -93,3 +93,20 @@ var token = canvas.tokens.get(tokenId);
     }
     let t = canvas.tokens.controlled;
 })();
+
+//find turnalert turn id of targeted token
+if (game.user.targets.size != 1) {
+    ui.notifications.error("Please target a single token.");
+    return;
+};
+let tokenID = Array.from(game.user.targets)[0].data._id;
+let turnID = game.combat.combatants.find(i => i.tokenId == tokenID)._id;
+console.log("**********", turnID);
+
+//roll dice from a macro called by a macro
+(async () => {
+    let target = canvas.tokens.objects.children.find(i => i.data._id == args[0]);
+    let numDice = 2 + args[1];
+    let damageRoll = new Roll(`${numDice}d4[acid]`).roll();
+    new MidiQOL.DamageOnlyWorkflow(actor, token, damageRoll.total, "acid", [target], damageRoll, { flavor: "Acid Arrow - Damage (acid)" });
+})(); 
