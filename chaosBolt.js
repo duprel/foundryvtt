@@ -31,18 +31,14 @@
     };
     function rollTotalDamage(damType, d8Total, targetID, spelllevel, crit) {
         let target = canvas.tokens.objects.children.find(i => i.data._id == targetID);
-        console.log(crit);
         if (crit == false) {
             var numDice = spelllevel;
             var damageRoll = new Roll(`${numDice}d6[${damType}] + ${d8Total}`).roll();
-
         } else {
             var numDice = spelllevel * 2;
             var damageRoll = new Roll(`${numDice}d6[${damType}] + ${d8Total} + 2d8`).roll();
-
         };
         new MidiQOL.DamageOnlyWorkflow(actor, token, damageRoll.total, damType, [target], damageRoll, { flavor: "Chaos Bolt - Damage (" + damType + ")" });
-        console.log(crit);
     };
     //end functions
     if (args[0] === "on") {
@@ -56,7 +52,6 @@
         if (roll1.total != roll2.total) {
             new Dialog({
                 title: "Choose elemental damage type",
-                title: "Critical Attack?",
                 content: `
         <form id="smite-use-form">
             <div class="form-group">
