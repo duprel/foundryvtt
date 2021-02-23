@@ -1,4 +1,5 @@
-﻿(async () => {
+﻿//args[1] = @attributes.spelldc
+(async () => {
     if (args[0] === "on") {
         return;
     } else {
@@ -17,13 +18,8 @@
             },
             message: "Make a CON Saving Throw DC: " + spellDC + " to extinguish yourself!",
             macro: "searingSmiteDOT",
-            args: [tokenID],
+            args: [tokenID, args[1], canvas.tokens.controlled[0]],
         };
         TurnAlert.create(alertData);
-        //failure take 1d6 fire
-        //pass spell ends
-
-
-        game.cub.removeCondition("Concentrating");
     };
 })();
