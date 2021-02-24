@@ -16,7 +16,7 @@
         let save = new Roll("d20 +@sSave", { sSave: strS });
         save.roll().toMessage({ flavor: `${actorName}'s Strength save` });
         if (args[1] > save.total) {
-            var messageContent = "FAILED: ${actorName} is pushed back 10 feet and knocked prone!";
+            var messageContent = "FAILED: " + actorName + " is pushed back 10 feet and knocked prone!";
             game.cub.addCondition("Prone", [...game.user.targets]);
         } else {
             var messageContent = "PASSED";
