@@ -1,20 +1,31 @@
-﻿//The spell has to expire for the Phantasmal Force to be deleted. Otherwise the effect must be deleted on the character sheet (not toggled)
-// args[1] = @target
-if (canvas.tokens.controlled.length != 1) {
-    ui.notifications.error("Please select a single token.");
-    return;
-}
-let t = canvas.tokens.controlled;
+﻿var a = canvas.tokens.controlled[0];
 if (args[0] === "on") {
+    if (canvas.tokens.controlled.length != 1) {
+        ui.notifications.error("Please select a single token.");
+        return;
+    };
     let data = {};
-    await t.actor.createOwnedItem(
+    if (args[0] === "on") {
+        if (args[1] == 2) {
+            var weaponDamage = 2;
+        } else if (args[1] > 6) {
+            var weaponDamage = 5;
+        } else {
+            if (args[1] % 2 == 0) {
+                var weaponDamage = 1 + Math.floor(args[1] / 2);
+            } else {
+                var weaponDamage = 2 + Math.floor(args[1] / 2);
+            }
+        };
+    };
+    await a.actor.createOwnedItem(
         {
-            "name": "Phantasmal Force Damage",
+            "name": "Summoned Shadow Blade",
             "type": "weapon",
             "data": {
                 "quantity": 1,
                 "activation": {
-                    "type": "bonus",
+                    "type": "action",
                     "cost": 1,
                     "condition": ""
                 },
@@ -29,8 +40,8 @@ if (args[0] === "on") {
                     "type": "creature"
                 },
                 "range": {
-                    "value": null,
-                    "long": 60,
+                    "value": 5,
+                    "long": null,
                     "units": "feet"
                 },
                 "uses": {
@@ -44,26 +55,32 @@ if (args[0] === "on") {
                     "amount": null
                 },
                 "ability": "",
-                "actionType": "util",
+                "actionType": "mwak",
                 "attackBonus": "0",
                 "chatFlavor": "",
                 "critical": null,
                 "damage": {
                     "parts": [
                         [
-                            "1d6",
+                            `${weaponDamage}d8`,
                             "psychic"
                         ]
                     ],
+                    "versatile": ""
                 },
                 "weaponType": "simpleM",
                 "proficient": true,
                 "equipped": true,
+                "properties": {
+                    "fin": true,
+                    "lgt": true,
+                    "thr": true
+                },
             },
-            "img": "modules/plutonium/media/icon/spell/phb-phantasmal-force.jpg",
+            "img": "modules/plutonium/media/icon/spell/xge-shadow-blade.jpg",
         }
     );
 } else {
-    let item = t.actor.data.items.find(i => i.name === "Phantasmal Force Damage" && i.type === "weapon")
-    t.actor.deleteOwnedItem(item._id)
+    let item = a.actor.data.items.find(i => i.name === "Summoned Shadow Blade" && i.type === "weapon")
+    a.actor.deleteOwnedItem(item._id)
 };
