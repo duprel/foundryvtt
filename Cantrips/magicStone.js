@@ -5,7 +5,6 @@ if (game.user.targets.size != 1) {
     return;
 };
 var t = Array.from(game.user.targets).find(i => i.data._id == args[1]);
-console.log("@@@@@@@@@@@@@@@@@@@:    ", t);
 if (args[0] === "on") {
     let data = {};
     await t.actor.createOwnedItem(
@@ -67,7 +66,6 @@ if (args[0] === "on") {
         }
     );
 } else {
-    console.log("@@@@@@@@@@@@@@@@@@@:    ", t);
     let item = t.actor.data.items.find(i => i.name === "Magic Stones" && i.type === "weapon")
     t.actor.deleteOwnedItem(item._id)
 };
