@@ -1,9 +1,11 @@
 ﻿//The spell has to expire for the Magic Stones to be deleted. Otherwise the effect must be deleted on the character sheet (not toggled)
+// args[1] = @target
 if (game.user.targets.size != 1) {
     ui.notifications.error("Please target a single token.");
     return;
 };
-var t = Array.from(game.user.targets)[0];
+var t = Array.from(game.user.targets).find(i => i.data._id == args[1]);
+console.log("@@@@@@@@@@@@@@@@@@@:    ", t);
 if (args[0] === "on") {
     let data = {};
     await t.actor.createOwnedItem(
@@ -65,6 +67,7 @@ if (args[0] === "on") {
         }
     );
 } else {
+    console.log("@@@@@@@@@@@@@@@@@@@:    ", t);
     let item = t.actor.data.items.find(i => i.name === "Magic Stones" && i.type === "weapon")
     t.actor.deleteOwnedItem(item._id)
 };
