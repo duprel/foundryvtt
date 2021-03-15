@@ -44,7 +44,7 @@ if (args[0] === "on") {
                     "target": "",
                     "amount": null
                 },
-                "ability": "",
+                "ability": "wis",
                 "actionType": "rsak",
                 "attackBonus": "0",
                 "chatFlavor": "",
