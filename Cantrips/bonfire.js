@@ -1,15 +1,4 @@
-﻿(async () => {
-    if (canvas.tokens.controlled.length != 1) {
-        ui.notifications.error("Please select a single token.");
-        return;
-    };
-    var t = canvas.tokens.controlled[0].actor;
-    if (args[0] === "on") {
-        let tName = t.data.name;
-        Summoner.placeAndSummon(
-            t,
-            "Bonfire",
-        );
-    } else {
-    };
-})();
+﻿let numDice = 1;
+let target = canvas.tokens.controlled[0];
+let damageRoll = new Roll(`${numDice}d8[fire]`).roll();
+new MidiQOL.DamageOnlyWorkflow(actor, token, damageRoll.total, "fire", [target], damageRoll, { flavor: "Create Bonfire - Damage Roll (Fire)" })
