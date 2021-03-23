@@ -1,6 +1,8 @@
 ﻿//DAE Macro Execute, Effect Value = "Macro Name" @target 
 
-let target = canvas.tokens.get(args[1]);
+var target = canvas.tokens.get(args[1]);
+var saveDC = args[2];
+var tokenID = target.actor._data._id;
 
 /**
  * For each target select the effect (GM selection)
@@ -95,6 +97,22 @@ if (args[0] === "on") {
                     target.actor.setFlag('world', 'bestowCurse', {
                         name: "COF",
                     });
+                    let tokenID = target.data._id;
+                    let turnID = game.combat.combatants.find(i => i.tokenId == tokenID)._id;
+                    const alertData = {
+                        round: 0,
+                        roundAbsolute: false,
+                        turnId: turnID,
+                        repeating: {
+                            frequency: 1,
+                            expire: null,
+                            expireAbsolute: false,
+                        },
+                        message: "Make a Wisdom Save DC: " + args[2] +" !",
+                        macro: "acidArrowDamage",
+                        args: [tokenID, args[2]],
+                    };
+                    TurnAlert.create(alertData);
                 }
             },
             four: {
