@@ -109,8 +109,7 @@ if (args[0] === "on") {
                             expireAbsolute: false,
                         },
                         message: "Make a Wisdom Save DC: " + args[2] +" !",
-                        macro: "acidArrowDamage",
-                        args: [tokenID, args[2]],
+                        macro: "curseConfusion",
                     };
                     TurnAlert.create(alertData);
                 }
@@ -121,6 +120,8 @@ if (args[0] === "on") {
                     target.actor.setFlag('world', 'bestowCurse', {
                         name: "HEX",
                     });
+                    let curseName = "bestowCurseHex";
+                    BetterCurses.curse(curseName);
                 }
             }
         }
@@ -154,13 +155,18 @@ if (args[0] === "off") {
         target.actor.update({ "flags.midi-qol.disadvantage.ability.save.cha": 0 });
     };
     if (flag.name === "ATK") {
-        target.actor.update({ "flags.midi-qol.disadvantage.attack.all" : 1 });
+        target.actor.update({ "flags.midi-qol.disadvantage.attack.all" : 0 });
     };
     if (flag.name === "COF") {
-            
+        let turnDataArr = Object.values(game.combat._data.flags.turnAlert.alerts);
+        let turnData = turnDataArr.find(i => i.macro == "curseConfusion");
+        let combatID = turnData.combatId;
+        let alertID = turnData.id;
+        TurnAlert.delete(combatID, alertID);            
     };
-    if (flag.name === "COF") {
-
+    if (flag.name === "HEX") {
+        let curseName = "bestowCurseHex";
+        BetterCurses.curse(curseName);
     };
     target.actor.unsetFlag('world', 'bestowCurse');
 }
