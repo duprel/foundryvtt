@@ -4,6 +4,17 @@
         return;
     }
     var a = canvas.tokens.controlled[0].actor;
+    if (args[1] == 5) {
+        var hand = "Bigby's Hand 5";
+    } else if (args[1] == 6) {
+        var hand = "Bigby's Hand 6";
+    } else if (args[1] == 7) {
+        var hand = "Bigby's Hand 7";
+    } else if (args[1] == 8) {
+        var hand = "Bigby's Hand 8";
+    } else {
+        var hand = "Bigby's Hand 9";
+    };
     if (args[0] === "on") {
         let maxHP = a.data.data.attributes.hp.max;
         let intValue = a.data.data.abilities.int.value;
@@ -25,15 +36,14 @@
                 },
             }
         };
-        console.log("!####################:         ", changes)
         await Summoner.placeAndSummon(
             a,
-            "Bigby's Hand",
+            hand,
             {
                 actorData: changes,
             },
         );
     } else {
-        await Summoner.dismiss("Bigby's Hand");
+        await Summoner.dismiss(hand);
     };
 })();
