@@ -86,13 +86,13 @@ var tokenId = args[1].tokenId;
 var token = canvas.tokens.get(tokenId);
 
 //select current controlled token
-(async () => {
+
     if (canvas.tokens.controlled.length != 1) {
         ui.notifications.error("Please select a single token.");
         return;
     }
-    let t = canvas.tokens.controlled;
-})();
+    let t = canvas.tokens.controlled[0];
+
 
 //find turnalert turn id of targeted token
 if (game.user.targets.size != 1) {
