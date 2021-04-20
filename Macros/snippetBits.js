@@ -1,13 +1,8 @@
 ﻿//default formatting
-(async () => {
-    
-})();
+(async () => {})();
 
 //base structure for dae on/off
-if (args[0] === "on") {
-    return;
-} else {
-};
+if (args[0] === "on") {} else {};
 
 //send message to chat
 var messageContent = "FAILED: Creature is pushed back 10 feet!";
