@@ -104,4 +104,21 @@ console.log("**********", turnID);
     let numDice = 2 + args[1];
     let damageRoll = new Roll(`${numDice}d4[acid]`).roll();
     new MidiQOL.DamageOnlyWorkflow(actor, token, damageRoll.total, "acid", [target], damageRoll, { flavor: "Acid Arrow - Damage (acid)" });
-})(); 
+})();
+
+//summoning that changes the token name and updates disposition, as a item macro end is the length of the string
+
+let a = game.actors.get(args[0].actor._id);
+let tName = "Giant Fly";
+let end = 9;
+let aName = a.data.name;
+await Summoner.placeAndSummon(
+    a,
+    tName,
+);
+for (let token of canvas.tokens.placeables) {
+    if (token.data.name.substring(0, end) === tName) {
+        await token.update({ name: aName + "'s " + tName })
+        await token.update({ disposition: '1' })
+    }
+};
