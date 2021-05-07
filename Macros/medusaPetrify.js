@@ -1,5 +1,4 @@
 ﻿(async () => {
-    console.log("!!!!!!!!!!!:   ", args[0]);
     let t = canvas.tokens.get(args[1]).actor;
     if (args[0] === "on") {
         let saveRoll = new Roll("1d20 + @con", { con: t.data.data.abilities.con.saveBonus }).roll();
