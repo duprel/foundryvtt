@@ -5,9 +5,6 @@ if (args[0] === "on") {
     if (t.actor.data.flags.world.rotGrubs === undefined || t.actor.data.flags.world.rotGrubs === null)  {
         await t.actor.setFlag("world", "rotGrubs", { value: newInfections._total });
         newInfections.toMessage({ flavor: `${t.data.name} total Rot Grub Infections: ${newInfections._total}` });
-        console.log("FART: ", t);
-    } else {
-        console.log("FART2: ", t.actor);
     };
 };
 
