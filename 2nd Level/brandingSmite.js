@@ -148,7 +148,7 @@
 
             let target = Array.from(game.user.targets)[0];;
             target.update({
-    "dimLight": 5, "lightColor": "#f8c377", "lightAlpha": 0.7, "lightAnimation": { type: "pulse", speed: 2, intensity: 2 } });
+    "dimLight": 5, "lightColor": "#f8c377", "lightAlpha": 0.5, "lightAnimation": { type: "pulse", speed: 2, intensity: 2 } });
         if (game.cub.hasCondition("Invisible", [...game.user.targets])) {
             game.cub.removeCondition("Invisible", [...game.user.targets], { allowDuplicates: false, replaceExisting: false });
         }
