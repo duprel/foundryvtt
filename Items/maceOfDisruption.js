@@ -1,6 +1,6 @@
 ﻿(async () => {
-    function damRoll(damDice, damageType, actorD, tokenD, target) {
-        let damageRoll = new Roll(`${damDice}d6`).roll();
+    function damRoll(damDice, damageType, actorD, tokenD, target, wpnDmg) {
+        let damageRoll = new Roll(`${damDice}d6 + ${wpnDmg}`).roll();
         new MidiQOL.DamageOnlyWorkflow(actorD, tokenD, damageRoll.total, damageType, [target], damageRoll, { flavor: `Mace of Disruption (${damageType}) extra damage` });
         return damageRoll.total;
     };
@@ -21,7 +21,7 @@
             if (!args[0].isCritical) {
                 damDice = 2;
             };
-            let riderDam = await damRoll(damDice, damageType, actorD, tokenD, target);
+            let riderDam = await damRoll(damDice, damageType, actorD, tokenD, target, args[0].damageTotal);
             let currHP = tHP - args[0].damageTotal - riderDam;
             if (currHP <= 25) {
                 let save_roll = await target.actor.rollAbilitySave('wis', { chatMessage: true, fastForward: true });
