@@ -1,6 +1,6 @@
 ﻿(async () => {
-    function damRoll(damDice, damageType, actorD, tokenD, target) {
-        let damageRoll = new Roll(`${damDice}d6`).roll();
+    function damRoll(damDice, damageType, actorD, tokenD, target, wpnDmg) {
+        let damageRoll = new Roll(`${damDice}d6 + ${wpnDmg}`).roll();
         new MidiQOL.DamageOnlyWorkflow(actorD, tokenD, damageRoll.total, damageType, [target], damageRoll, { flavor: `Giant Slayer (${damageType}) extra damage` });
     };
 
@@ -18,7 +18,7 @@
             if (!args[0].isCritical) {
                 damDice = 2;
             };
-            await damRoll(damDice, damageType, actorD, tokenD, target);
+            await damRoll(damDice, damageType, actorD, tokenD, target, args[0].damageTotal);
             let save_roll = await target.actor.rollAbilitySave('str', { chatMessage: true, fastForward: true });
             if (save_roll._total < 15) {
                 game.cub.addCondition("Prone", target);
@@ -26,3 +26,4 @@
         };
     };
 })();
+
