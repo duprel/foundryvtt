@@ -4,5 +4,6 @@
     let target = canvas.tokens.get(args[0].hitTargets[0]._id);
     let damageType = args[0].damageDetail[0].type;
     let damageRoll = new Roll("2d6").roll();
-    new MidiQOL.DamageOnlyWorkflow(actorD, tokenD, damageRoll.total, damageType, [target], damageRoll, { flavor: `Vicious Weapon (${damageType}) extra damage` });
+    let totDmg = damageRoll.total + args[0].damageTotal;
+    new MidiQOL.DamageOnlyWorkflow(actorD, tokenD, totDmg, damageType, [target], damageRoll, { flavor: `Vicious Weapon (${damageType}) extra damage` });
 };
