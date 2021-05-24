@@ -1,4 +1,4 @@
-﻿function reName(end, aName, tName) {
+﻿function reName(end, aName, tName, damDice) {
     for (let token of canvas.tokens.placeables) {
         if (token.data.name.substring(0, end) === tName) {
             token.actor.createOwnedItem({
@@ -12,7 +12,7 @@
                     "damage": {
                         "parts": [
                             [
-                                "4d12",
+                                `${damDice}`,
                                 "lightning"
                             ]
                         ],
@@ -59,10 +59,56 @@ if (args[0] === "on") {
                     Summoner.placeAndSummon(
                         a,
                         tName,
-                    ).then(() => reName(end, a.data.name, tName));
+                    ).then(() => reName(end, a.data.name, tName, "4d12"));
                 }
-            }
+            },
+            two: {
+                label: "2",
+                callback: () => {
+                    Summoner.placeAndSummon(
+                        a,
+                        tName,
+                    ).then(() => Summoner.placeAndSummon(
+                        a,
+                        tName,
+                    )).then(() => reName(end, a.data.name, tName, "5d4"));
+                }
+            },
+            three: {
+                label: "3",
+                callback: () => {
+                    Summoner.placeAndSummon(
+                        a,
+                        tName,
+                    ).then(() => Summoner.placeAndSummon(
+                        a,
+                        tName,
+                    )).then(() => Summoner.placeAndSummon(
+                        a,
+                        tName,
+                    ))
+                        .then(() => reName(end, a.data.name, tName, "2d6"));
+                }
+            },
+            four: {
+                label: "4",
+                callback: () => {
+                    Summoner.placeAndSummon(
+                        a,
+                        tName,
+                    ).then(() => Summoner.placeAndSummon(
+                        a,
+                        tName,
+                    )).then(() => Summoner.placeAndSummon(
+                        a,
+                        tName,
+                    )).then(() => Summoner.placeAndSummon(
+                        a,
+                        tName,
+                    ))
+                        .then(() => reName(end, a.data.name, tName, "2d4"));
+                }
+            },
         }
     }).render(true);
-
 };
