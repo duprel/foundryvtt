@@ -122,3 +122,9 @@ for (let token of canvas.tokens.placeables) {
         await token.update({ disposition: '1' })
     }
 };
+
+//to pull the actor from the origin of an effect.
+let t = canvas.tokens.get(args[1].tokenId);
+let regex = /(?<=\.)(.*?)(?=\.)/;
+let actID = regex.exec(args[1].origin)[1];
+let a = game.actors.get(actID);
