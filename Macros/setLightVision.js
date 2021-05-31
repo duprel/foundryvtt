@@ -27,6 +27,15 @@
                 lightAlpha = 0.16;
                 lightColor = "#e8f29c";
                 break;
+            case "frostBrand":
+                dimLight = 20;
+                brightLight = 10;
+                lightAngle = 360;
+                lockRotation = false;
+                lightAnimation = { type: "torch", speed: 2, intensity: 5 };
+                lightAlpha = 0.16;
+                lightColor = "#05e6e2";
+                break;
         };
         tok.update({
             dimSight: dimSight,

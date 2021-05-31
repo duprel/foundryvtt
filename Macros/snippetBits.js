@@ -108,12 +108,13 @@ console.log("**********", turnID);
 
 //summoning that changes the token name and updates disposition, as a item macro end is the length of the string
 
-let a = game.actors.get(args[0].actor._id);
-let tName = "Giant Fly";
+//item macro
+
+let tName = "Nightmare";
 let end = 9;
-let aName = a.data.name;
+let aName = actor.data.name;
 await Summoner.placeAndSummon(
-    a,
+    actor,
     tName,
 );
 for (let token of canvas.tokens.placeables) {
