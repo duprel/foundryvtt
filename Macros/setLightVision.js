@@ -36,6 +36,15 @@
                 lightAlpha = 0.16;
                 lightColor = "#05e6e2";
                 break;
+            case "HoB":
+                dimLight = 30;
+                brightLight = 0;
+                lightAngle = 360;
+                lockRotation = false;
+                lightAnimation = { type: "chroma", speed: 2, intensity: 5 };
+                lightAlpha = 0.16;
+                lightColor = "#faf319";
+                break;
         };
         tok.update({
             dimSight: dimSight,
