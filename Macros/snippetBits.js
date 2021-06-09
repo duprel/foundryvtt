@@ -130,7 +130,7 @@ let regex = /(?<=\.)(.*?)(?=\.)/;
 let actID = regex.exec(args[1].origin)[1];
 let a = game.actors.get(actID);
 
-//adding damage riders
+//adding damage riders (Holy Avenger)
 let damageRoll = new Roll(`${damDice}d10[radiant]`).roll();
 damageRoll.toMessage();
 await new MidiQOL.DamageOnlyWorkflow(a, tok, damageRoll.total, "radiant", [target], damageRoll, { flavor: `Holy Avenger extra radiant damage`, itemCardId: args[0].itemCardId, useOther: true, damageList: args[0].damageList });
