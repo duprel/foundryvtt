@@ -1,9 +1,9 @@
 ﻿//ItemMacro
 
 (async () => {
-    function damRoll(damDice, damageType, actorD, tokenD, target, wpnDmg) {
-        let damageRoll = new Roll(`${damDice}d10 + ${wpnDmg}`).roll();
-        new MidiQOL.DamageOnlyWorkflow(actorD, tokenD, damageRoll.total, damageType, [target], damageRoll, { flavor: `Sun Blade (${damageType}) extra damage` });
+    if (args[0].hitTargets.length === 0) {
+        console.log("Missed or no target");
+        return;
     };
 
     let target = canvas.tokens.get(args[0].hitTargets[0]._id);
@@ -16,6 +16,8 @@
         if (args[0].isCritical) {
             damDice = 4;
         };
-        await damRoll(damDice, "radiant", a, tok, target, args[0].damageTotal);
+        let damageRoll = new Roll(`${damDice}d10[radiant]`).roll();
+        damageRoll.toMessage();
+        await new MidiQOL.DamageOnlyWorkflow(a, tok, damageRoll.total, "radiant", [target], damageRoll, { flavor: `Holy Avenger extra radiant damage`, itemCardId: args[0].itemCardId, useOther: true, damageList: args[0].damageList });
     };
 })();
