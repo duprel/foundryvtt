@@ -1,7 +1,7 @@
 ﻿//ItemMacro
 
-let tName = "Air Elemental";
-let end = 13;
+let tName = "Djinni";
+let end = tName.length;
 let aName = actor.data.name;
 await Summoner.placeAndSummon(
     actor,
