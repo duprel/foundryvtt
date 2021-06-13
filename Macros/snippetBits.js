@@ -131,6 +131,11 @@ let actID = regex.exec(args[1].origin)[1];
 let a = game.actors.get(actID);
 
 //adding damage riders (Holy Avenger)
+
+let target = canvas.tokens.get(args[0].hitTargets[0]._id); //target's token
+let a = game.actors.get(args[0].actor._id);                 //caster's actor
+let tok = canvas.tokens.get(args[0].tokenId);               //casters token
+
 let damageRoll = new Roll(`${damDice}d10[radiant]`).roll();
 damageRoll.toMessage();
 await new MidiQOL.DamageOnlyWorkflow(a, tok, damageRoll.total, "radiant", [target], damageRoll, { flavor: `Holy Avenger extra radiant damage`, itemCardId: args[0].itemCardId, useOther: true, damageList: args[0].damageList });
