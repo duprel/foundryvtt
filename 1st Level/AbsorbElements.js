@@ -1,52 +1,54 @@
-﻿(async () => {
-    async function setDamageType(elementalType, token, level) {
+﻿//ItemMacro
+(async () => {
+
+    async function setDamageType(elementalType, actor, level) {
         let bonus = (level + "d6" + "[" + elementalType + "]");
-        token.actor.update({ "data.bonuses.mwak.damage": bonus });
-        console.log(elementalType, token, bonus);
+        await actor.update({ "data.bonuses.mwak.damage": bonus });
+        await actor.update({ "data.bonuses.msak.damage": bonus });
     }
-    if (canvas.tokens.controlled.length != 1) {
-        ui.notifications.error("Please select a single token.");
-        return;
-    }
-    let t = canvas.tokens.controlled;
-    let spellLevel = args[1];
+
     if (args[0] === "on") {
+        const lastArg = args[args.length - 1];
+        let spellLevel = args[1];
         new Dialog({
             title: "Choose elemental damage type",
             buttons: {
                 one: {
                     label: "Acid",
                     callback: () => {
-                        setDamageType("acid", t[0], spellLevel);
+                        setDamageType("acid", actor, spellLevel);
                     }
                 },
                 two: {
                     label: "Cold",
                     callback: () => {
-                        setDamageType("cold", t[0], spellLevel);
+                        setDamageType("cold", actor, spellLevel);
                     }
                 },
                 three: {
                     label: "Fire",
                     callback: () => {
-                        setDamageType("fire", t[0], spellLevel);
+                        setDamageType("fire", actor, spellLevel);
                     }
                 },
                 four: {
                     label: "Lightning",
                     callback: () => {
-                        setDamageType("lightning", t[0], spellLevel);
+                        setDamageType("lightning", actor, spellLevel);
                     }
                 },
                 six: {
                     label: "Thunder",
                     callback: () => {
-                        setDamageType("thunder", t[0], spellLevel);
+                        setDamageType("thunder", actor, spellLevel);
                     }
                 }
             }
         }).render(true);
-    } else {
-        t[0].actor.update({ "data.bonuses.mwak.damage": "" });
+
+    };
+    if (args[0] === "off") {
+        await actor.update({ "data.bonuses.mwak.damage": "" });
+        await actor.update({ "data.bonuses.msak.damage": "" });
     };
 })();
