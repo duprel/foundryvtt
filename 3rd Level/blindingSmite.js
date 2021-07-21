@@ -25,14 +25,15 @@ if (args[0] === "off") {
 
 
 //GM macro
-// Named = "GM WrathfullSmite"
-console.log("###: ", args[0])
+// Named = "GM BlindingSmite"
 let smiteTarget = canvas.tokens.get(args[1])
+const lastArg = args[args.length - 1];
 if (args[0] === "each") {
-    const flavor = `Use action to roll ${CONFIG.DND5E.abilities["con"]} DC${args[3]} ${"Blinding Smite"}`;
+    const flavor = `Save roll ${CONFIG.DND5E.abilities["con"]} DC${args[3]} ${"Blinding Smite"}`;
     let saveRoll = (await smiteTarget.actor.rollAbilitySave("con", { flavor })).total;
-    if (saveRoll < args[3]) {
+    if (saveRoll >= args[3]) {
         await game.cub.removeCondition("Blinded", smiteTarget)
+        await smiteTarget.actor.deleteEmbeddedEntity("ActiveEffect", lastArg.effectId)
     }
     return;
 }
@@ -40,7 +41,7 @@ if (args[0] === "each") {
 
 if (args[0] === "apply") {
 
-    const flavor = `${CONFIG.DND5E.abilities["con"]} DC${args[3]} ${"Blinding Smite"}`;
+    const flavor = `${CONFIG.DND5E.abilities["con"]} DC: ${args[3]} ${"Blinding Smite"}`;
     let saveRoll = (await smiteTarget.actor.rollAbilitySave("con", { flavor })).total;
     if (saveRoll > args[3]) return;
 
@@ -68,4 +69,10 @@ if (args[0] === "apply") {
     }
 
     smiteTarget.actor.createEmbeddedEntity("ActiveEffect", effectData);
+}
+
+if (args[0] === "off") {
+    if (game.cub.hasCondition("Blinded", smiteTarget.actor)) {
+        await game.cub.addCondition("Blinded", smiteTarget)
+    }
 }
