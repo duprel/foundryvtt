@@ -1,0 +1,50 @@
+
+let numDice = 0;
+let diffNum = 0;
+let roll = false;
+new Dialog({
+    title: 'Roll a Check',
+    content: `
+    <form>
+      <div class="form-group">
+        <label>Number of dice:
+          <input type="numeric" name="dice" value=5></input>
+        </label>
+        <label>Difficulty:
+        <input type="numeric" name="difficulty" value=6></input>
+      </label>
+      </div>
+    </form>
+    `,
+    buttons: {
+      normal: {
+        icon: "<i class='fas fa-dice-d20'></i>",
+        label: 'Regular roll',
+        callback: (html) => {
+          let formVal = html.find('input[name="dice"]');
+          let formValDiff = html.find('input[name="difficulty"]');
+          if (formVal && formVal.val() !== 0) {
+            numDice = formVal.val();
+          }
+          if (formValDiff && formValDiff.val() !== 0) {
+            diffNum = formValDiff.val();
+          }
+          roll = true;
+        }
+      }
+    },
+    default: 'normal',
+    close: async (html) => {
+      if (!roll)
+        return;
+      let r = await new Roll(`${numDice}d10cs>=${diffNum}df=1`).roll();
+      let successes = r.total;
+      let chatData = {
+        user: game.user._id,
+        speaker: ChatMessage.getSpeaker(),
+        content: `Rolled ${numDice}d10 and got ${successes} ${successes > 1 ? 'successes' : 'success'}`
+      };
+      r.toMessage({speaker: ChatMessage.getSpeaker()});
+      ChatMessage.create(chatData, {});
+    }
+  }).render(true);
